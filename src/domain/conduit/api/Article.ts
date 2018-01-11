@@ -5,3 +5,4 @@ export type ArticleRequest = string;
 export type ArticleResponse = {
   article: Article
 } | GenericError;
+
