@@ -40,11 +40,22 @@ export const setIdle = () => articleViewState$.next({
 
 export const getArticle = (slug: string) => {
   setWaiting(slug);
+  // const unsub =
   _getArticle(slug)
     .subscribe(artResp => isGenericError(artResp) ?
       setArticleError(artResp.errors.body) :
-      setArticle(artResp.article)
+      setArticle(artResp.article),
+      // () =>{
+      //   debugger;
+      // },
+      // () => {
+      //   debugger;
+      // },
     );
+  // setTimeout(()=>{
+  //   setIdle();
+  //   unsub.unsubscribe();
+  // }, 20);
 };
 
 export const articleViewState$ = new ReplaySubject<ArticleViewState>(1);

@@ -18,8 +18,8 @@ const ajax = <T>(
     .subscribe(observer);
 
   return () => {
-    subscription.unsubscribe();
     cancelSource.cancel('Operation canceled by the user.');
+    subscription.unsubscribe();
   };
 });
 

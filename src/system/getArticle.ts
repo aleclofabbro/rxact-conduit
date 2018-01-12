@@ -12,6 +12,7 @@ export const getArticle = (slug: ArticleRequest) =>
     url: `articles/${slug}`,
   },
   (response: AxiosResponse) => {
+    // throw(response);
     return [{
       errors: {
         body: [`Article error: ${response.data.error}`]
