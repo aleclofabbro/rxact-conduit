@@ -7,8 +7,10 @@ export const ArticleView = (props: ArticleViewState) => {
     <div>
       <input ref={_ => input = _} type="text"/>
       <button onClick={_getArticle}>get</button>
+      {props.waiting && <span>Fetching...</span>}
       <pre style={{textAlign: 'left'}}>
-        {JSON.stringify(props, null, 4)}
+        {props.article && JSON.stringify(props.article, null, 4)}
+        {props.errors && JSON.stringify(props.errors, null, 4)}
       </pre>
     </div>
   );

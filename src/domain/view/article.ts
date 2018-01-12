@@ -17,7 +17,7 @@ const setWaiting = (slug: Article['slug']) => articleViewState$.next({
 const setArticle = (article: Article) => articleViewState$.next({
   article: article,
   slug: article.slug,
-  waiting: true,
+  waiting: false,
   errors: null
 });
 const setArticleError = (errors: string[]) => articleViewState$.next({
@@ -37,7 +37,7 @@ export const getArticle = (slug: string) => {
   setWaiting(slug);
   _getArticle(slug)
     .subscribe(artResp => {
-      if(isGenericError(artResp)){
+      if (isGenericError(artResp)) {
         setArticleError(artResp.errors.body);
       } else {
         setArticle(artResp.article);
