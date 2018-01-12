@@ -1,7 +1,7 @@
 import Article from '../../lib/conduit-domain/data/Article';
 import { ReplaySubject } from '@reactivex/rxjs/dist/package/ReplaySubject';
 import { isGenericError } from '../../lib/conduit-domain/api/ErrorResponse';
-import { getArticle as _getArticle } from '../../system/getArticle';
+import { getArticle as _getArticle } from '../../lib/conduit-back-end/getArticle';
 
 export interface ArticleViewState {
   article: Article | null;
@@ -24,9 +24,9 @@ const setArticle = (article: Article) => articleViewState$.next({
   errors: null
 });
 
-const setArticleError = (errors: string[]) => articleViewState$.next({
+const setArticleError = (slug: Article['slug'], errors: string[]) => articleViewState$.next({
   article: null,
-  slug: null,
+  slug,
   waiting: false,
   errors
 });
@@ -43,7 +43,7 @@ export const getArticle = (slug: string) => {
   // const unsub =
   _getArticle(slug)
     .subscribe(artResp => isGenericError(artResp) ?
-      setArticleError(artResp.errors.body) :
+      setArticleError(slug, artResp.errors.body) :
       setArticle(artResp.article),
       // () =>{
       //   debugger;

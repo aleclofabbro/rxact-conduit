@@ -1,4 +1,4 @@
-import { backEnd$ } from './system/backEnd';
+import { backEnd$ } from './lib/conduit-back-end/config';
 import { Observable } from '@reactivex/rxjs/dist/package/Rx';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
