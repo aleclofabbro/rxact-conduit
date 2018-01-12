@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ArticleViewState, getArticle } from '../../domain/view/article';
+import { ArticleViewState, getArticle } from './control';
 export const ArticleView = (props: ArticleViewState) => {
   let input: HTMLInputElement | null = null;
   const _getArticle = () => input && getArticle(input.value);

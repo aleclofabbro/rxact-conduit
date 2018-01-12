@@ -1,12 +1,12 @@
-import { backEnd$ } from './domain/system/backEnd';
+import { backEnd$ } from './system/backEnd';
 import { Observable } from '@reactivex/rxjs/dist/package/Rx';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './view/app/App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
-import { appState$, AppViewState } from './domain/view/app';
-import { articleViewState$, setIdle as setIdleArticleView, ArticleViewState } from './domain/view/article';
+import { appState$, AppViewState } from './view/app/control';
+import { articleViewState$, setIdle as setIdleArticleView, ArticleViewState } from './view/article/control';
 
 appState$.subscribe(state =>
   ReactDOM.render(

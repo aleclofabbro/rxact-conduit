@@ -1,9 +1,9 @@
-// import { GenericError } from './../conduit/api/ErrorResponse';
+// import { GenericError } from '../lib/conduit-domain/api/ErrorResponse';
 import { BackEnd } from './backEnd';
-import { ArticleResponse } from './../conduit/api/Article';
-import ajax from '../../lib/io/ajax';
+import { ArticleResponse } from '../lib/conduit-domain/api/Article';
+import ajax from '../lib/io/ajax';
 import { backEnd$ } from './backEnd';
-import { ArticleRequest } from '../conduit/api/Article';
+import { ArticleRequest } from '../lib/conduit-domain/api/Article';
 import { AxiosResponse } from 'axios';
 export const getArticle = (slug: ArticleRequest) =>
   backEnd$.mergeMap<BackEnd, ArticleResponse>(backEnd => ajax<ArticleResponse>(
