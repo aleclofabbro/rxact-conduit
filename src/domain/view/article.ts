@@ -43,5 +43,5 @@ export const getArticle = (slug: string) => {
         setArticle(artResp.article);
       }
     });
-}
+};
 export const articleViewState$ = new ReplaySubject<ArticleViewState>(1);
