@@ -9,7 +9,7 @@ export enum Status {
   Waiting
 }
 type Error = {
-  slug: ArticleType['slug'];
+  // slug: ArticleType['slug'];
   errors: ArticleApi.Error['errors']['body'];
   status: Status.Error;
 };

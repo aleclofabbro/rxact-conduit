@@ -4,7 +4,7 @@ export namespace Article {
     if (!slug.length) {
       throw 'slug min length: 3';
     }
-    return `/article/${slug}`;
+    return `/articles/${slug}`;
   };
   export const method = 'GET';
   export const isError = isGenericError;

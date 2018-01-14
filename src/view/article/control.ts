@@ -1,43 +1,42 @@
-import { Subscription } from '@reactivex/rxjs/dist/package/Subscription';
-import { BehaviorSubject } from '@reactivex/rxjs/dist/package/BehaviorSubject';
+import { Subject } from '@reactivex/rxjs/dist/package/Subject';
 import { Article } from '../../lib/conduit-domain/Data';
-import { isGenericError } from '../../lib/conduit-domain/HttpApi';
+import { Article as ArticleApi, isGenericError } from '../../lib/conduit-domain/HttpApi';
 import { articleBySlug } from '../../lib/conduit-backoffice/getArticle';
 import { Status, ViewState } from './Types';
+import { Observable } from '@reactivex/rxjs/dist/package/Observable';
 
-const setWaiting = (slug: Article['slug']) => articleViewState$.next({
+const setWaiting = (slug: Article['slug']): ViewState => ({
   slug,
   status: Status.Waiting
 });
 
-const setArticle = (article: Article) => articleViewState$.next({
+const setArticle = (article: Article): ViewState => ({
   article,
   slug: article.slug,
   status: Status.Show
 });
 
-const setArticleError = (slug: Article['slug'], errors: string[]) => articleViewState$.next({
-  slug,
+const setArticleError = (errors: string[]): ViewState => ({
+  // slug,
   errors,
   status: Status.Error
 });
-let subscription: Subscription;
-// TODO: rendere getArticle -> getArticle$
-// ( Subject<Article['slug']>.flatMapLatest )
-// eliminare i vari articleViewState$.next
-// ma invece:
-// fare vome appControl:
-// export combineLetest(getArticle$)
-export const getArticle = (slug: string) => {
-  if (subscription) { subscription.unsubscribe(); }
-  setWaiting(slug);
-  const subscr = articleBySlug(slug)
-    .subscribe(artResp => isGenericError(artResp) ?
-      setArticleError(slug, artResp.errors.body) :
-      setArticle(artResp.article));
-  subscription = subscr;
-};
+const getArticle$ = new Subject<Article['slug']>();
+const articleResp$ = getArticle$
+.switchMap<Article['slug'], ArticleApi.Value>(slug =>articleBySlug(slug))
+.map(artResp => {
+  const article = isGenericError(artResp) ?
+  setArticleError(artResp.errors.body) :
+  setArticle(artResp.article);
+  return {...article};
+});
 const idleState: ViewState = {
   status: Status.Idle
 };
-export const articleViewState$ = new BehaviorSubject<ViewState>(idleState);
+
+export const getArticle = getArticle$.next.bind(getArticle$);
+export const articleViewState$ = Observable.merge(
+  getArticle$.map(setWaiting),
+  articleResp$
+)
+.startWith(idleState);
