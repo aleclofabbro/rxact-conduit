@@ -23,13 +23,13 @@ const setArticleError = (errors: string[]): ViewState => ({
 });
 const getArticle$ = new Subject<Article['slug']>();
 const articleResp$ = getArticle$
-.switchMap<Article['slug'], ArticleApi.Value>(slug =>articleBySlug(slug))
-.map(artResp => {
-  const article = isGenericError(artResp) ?
-  setArticleError(artResp.errors.body) :
-  setArticle(artResp.article);
-  return {...article};
-});
+  .switchMap<Article['slug'], ArticleApi.Value>(slug => articleBySlug(slug))
+  .map(artResp => {
+    const article = isGenericError(artResp) ?
+    setArticleError(artResp.errors.body) :
+    setArticle(artResp.article);
+    return {...article};
+  });
 const idleState: ViewState = {
   status: Status.Idle
 };
