@@ -2,10 +2,10 @@
 import * as React from 'react';
 import './App.css';
 const logo = require('./logo.svg');
-import { AppViewState } from './control';
+import { AppViewState } from './Types';
 import { ArticleView } from '../article/Article';
 
-const App = (props: AppViewState) => {
+const App = ({articleView}: AppViewState) => {
   return (
     <div className="App">
       <div className="App-header">
@@ -13,7 +13,7 @@ const App = (props: AppViewState) => {
         <h2>Welcome to React</h2>
       </div>
       <div>
-        <ArticleView {...props.articleView} />
+        {ArticleView(articleView)}
       </div>
     </div>
   );

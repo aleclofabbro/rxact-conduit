@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ArticleViewState, getArticle } from './control';
-export const ArticleView = (props: ArticleViewState) => {
+import { ViewState, Status } from './Types';
+import { getArticle } from './control';
+export const ArticleView = (props: ViewState) => {
   let input: HTMLInputElement | null = null;
   const _getArticle = () => input && getArticle(input.value);
   return (
@@ -9,11 +10,11 @@ export const ArticleView = (props: ArticleViewState) => {
       <button onClick={_getArticle}>get</button>
       <br/>
       <span>
-        {props.waiting && <span>Fetching..{props.slug}.</span>}
+        {props.status === Status.Waiting && <span>Fetching..{props.slug}.</span>}
       </span>
       <pre style={{textAlign: 'left'}}>
-        {props.article && JSON.stringify(props.article, null, 4)}
-        {props.errors && JSON.stringify(props.errors, null, 4)}
+        {props.status === Status.Show && JSON.stringify(props.article, null, 4)}
+        {props.status === Status.Error && JSON.stringify(props.errors, null, 4)}
       </pre>
     </div>
   );

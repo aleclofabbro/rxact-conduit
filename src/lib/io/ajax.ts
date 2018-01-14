@@ -13,7 +13,7 @@ const ajax = <T>(
       ...config,
       cancelToken: cancelSource.token
     }))
-    .catch(x => Observable.from(mapReject(x.response as AxiosResponse)).map(data => ({data})))
+    .catch(error => Observable.from(mapReject(error.response as AxiosResponse)).map(data => ({data})))
     .map(response => response.data)
     .subscribe(observer);
 
