@@ -1,6 +1,6 @@
 import { Subject } from '@reactivex/rxjs/dist/package/Subject';
 import { Article } from '../../lib/conduit-domain/Data';
-import { Article as ArticleApi, isGenericError } from '../../lib/conduit-domain/HttpApi';
+import { Article as ArticleApi, isGenericError } from '../../lib/conduit-domain/Api';
 import { articleBySlug } from '../../lib/conduit-backoffice/getArticle';
 import { Status, ViewState } from './Types';
 import { Observable } from '@reactivex/rxjs/dist/package/Observable';
@@ -22,13 +22,14 @@ const setArticleError = (errors: string[]): ViewState => ({
   status: Status.Error
 });
 const getArticle$ = new Subject<Article['slug']>();
+
 const articleResp$ = getArticle$
   .switchMap<Article['slug'], ArticleApi.Value>(slug => articleBySlug(slug))
   .map(artResp => {
-    const article = isGenericError(artResp) ?
-    setArticleError(artResp.errors.body) :
-    setArticle(artResp.article);
-    return {...article};
+    const articleResponse = isGenericError(artResp) ?
+      setArticleError(artResp.errors.body) :
+      setArticle(artResp.article);
+    return articleResponse;
   });
 const idleState: ViewState = {
   status: Status.Idle

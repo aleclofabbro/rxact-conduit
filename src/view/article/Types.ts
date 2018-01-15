@@ -1,5 +1,5 @@
 import { ViewState } from './Types';
-import { Article as ArticleApi } from './../../lib/conduit-domain/HttpApi';
+import { Article as ArticleApi } from './../../lib/conduit-domain/Api';
 import { Article as ArticleType } from '../../lib/conduit-domain/Data';
 
 export enum Status {

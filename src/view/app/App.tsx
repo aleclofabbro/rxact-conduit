@@ -1,11 +1,13 @@
-// import Article from '../../lib/conduit-domain/data/Article';
+// TODO:
+// eliminare dipendenze di app da ../article/**/*
+// lasciare al main il wiring
 import * as React from 'react';
 import './App.css';
 const logo = require('./logo.svg');
 import { AppViewState } from './Types';
 import { ArticleView } from '../article/Article';
 
-const App = ({articleView}: AppViewState) => {
+const App = (props: AppViewState) => {
   return (
     <div className="App">
       <div className="App-header">
@@ -13,7 +15,7 @@ const App = ({articleView}: AppViewState) => {
         <h2>Welcome to React</h2>
       </div>
       <div>
-        {ArticleView(articleView)}
+        {ArticleView(props.articleView)}
       </div>
     </div>
   );
